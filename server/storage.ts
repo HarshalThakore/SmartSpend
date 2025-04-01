@@ -22,21 +22,21 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Category methods
   getCategories(userId: number): Promise<Category[]>;
   getCategoryById(id: number): Promise<Category | undefined>;
   createCategory(category: InsertCategory): Promise<Category>;
   updateCategory(id: number, category: Partial<InsertCategory>): Promise<Category | undefined>;
   deleteCategory(id: number): Promise<boolean>;
-  
+
   // Transaction methods
   getTransactions(userId: number): Promise<Transaction[]>;
   getTransactionById(id: number): Promise<Transaction | undefined>;
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   updateTransaction(id: number, transaction: Partial<InsertTransaction>): Promise<Transaction | undefined>;
   deleteTransaction(id: number): Promise<boolean>;
-  
+
   // Stats methods
   getDashboardStats(userId: number): Promise<{
     totalBalance: number;
@@ -44,14 +44,14 @@ export interface IStorage {
     totalExpenses: number;
     recentTransactions: Transaction[];
   }>;
-  
+
   // Session store
   sessionStore: SessionStore;
 }
 
 export class DatabaseStorage implements IStorage {
   sessionStore: SessionStore;
-  
+
   constructor() {
     if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
       // In production, use PostgreSQL for session storage
