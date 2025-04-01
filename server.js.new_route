@@ -1,0 +1,5 @@
+// Add a fallback transaction form route
+app.get('/fallback-transaction', ensureAuthenticated, (req, res) => {
+  const fallbackPath = join(__dirname, 'server/public/fallback-transaction.html');
+  res.sendFile(fallbackPath);
+});

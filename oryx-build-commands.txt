@@ -1,0 +1,3 @@
+PlatformWithVersion=Node.js 20.18.3
+BuildCommands=
+, npm install, npm run build

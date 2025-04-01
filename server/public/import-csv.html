@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Transactions - SmartSpend</title>
+    <link rel="icon" type="image/png" href="/generated-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-color: #333;
+            --light-bg: #f5f7fa;
+            --border-color: #ddd;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --navbar-height: 60px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: white;
+            height: var(--navbar-height);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .navbar-logo i {
+            margin-right: 8px;
+        }
+        
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0 15px;
+            height: var(--navbar-height);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 80px auto 20px auto;
+            padding: 0 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            border: none;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed var(--border-color);
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .file-upload-area:hover, .file-upload-area.active {
+            border-color: var(--primary-color);
+            background-color: rgba(59, 130, 246, 0.03);
+        }
+        
+        .file-upload-icon {
+            font-size: 48px;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-area.has-file .file-upload-icon {
+            color: var(--success-color);
+        }
+        
+        .file-upload-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .file-upload-sublabel {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .file-details {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: left;
+            display: none;
+        }
+        
+        .file-details.show {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            word-break: break-all;
+        }
+        
+        .file-meta {
+            font-size: 13px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-container.show {
+            display: block;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+        }
+        
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+        }
+        
+        .csv-format-example {
+            margin-top: 30px;
+        }
+        
+        .csv-format-example h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .example-table {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 70px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .card-title {
+                margin-bottom: 10px;
+            }
+            
+            .file-upload-area {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-logo">
+            <i class="fas fa-wallet"></i> SmartSpend
+        </a>
+        <div class="navbar-nav">
+            <a href="/" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="/transactions.html" class="nav-link active">
+                <i class="fas fa-exchange-alt"></i> Transactions
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-chart-pie"></i> Categories
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-file-import"></i> Import Transactions from CSV
+                </h2>
+                <a href="/transactions.html" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Back to Transactions
+                </a>
+            </div>
+            <div class="card-body">
+                <div id="successAlert" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Your transactions have been successfully imported!
+                </div>
+                
+                <div id="errorAlert" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> <span id="errorMessage">There was an error importing your transactions.</span>
+                </div>
+                
+                <div id="fileUploadArea" class="file-upload-area">
+                    <div id="uploadPrompt">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <label class="file-upload-label">Drag and drop your CSV file here</label>
+                        <p class="file-upload-sublabel">Or click to browse your files</p>
+                    </div>
+                    
+                    <div id="fileDetails" class="file-details">
+                        <div class="file-name" id="fileName">filename.csv</div>
+                        <div class="file-meta" id="fileSize">0 KB</div>
+                        <button id="removeFileBtn" class="btn btn-outline" style="margin-top: 10px;">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
+                    </div>
+                    
+                    <input type="file" id="csvFileInput" accept=".csv" hidden>
+                </div>
+                
+                <div id="progressContainer" class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <div id="progressText" class="progress-text">Processing: 0%</div>
+                </div>
+                
+                <div class="footer">
+                    <button id="cancelBtn" class="btn btn-outline">Cancel</button>
+                    <button id="uploadBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-upload"></i> Upload Transactions
+                    </button>
+                </div>
+                
+                <div class="csv-format-example">
+                    <h3>CSV Format Example:</h3>
+                    <div class="example-table">
+                        description,amount,type,date,notes,category<br>
+                        "Grocery shopping",120.50,expense,2025-03-15,"Monthly groceries",Food<br>
+                        "Salary deposit",3000,income,2025-03-01,"March salary",Salary
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const csvFileInput = document.getElementById('csvFileInput');
+        const fileDetails = document.getElementById('fileDetails');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const removeFileBtn = document.getElementById('removeFileBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        let selectedFile = null;
+        
+        // Event Listeners
+        fileUploadArea.addEventListener('click', () => {
+            if (!selectedFile) {
+                csvFileInput.click();
+            }
+        });
+        
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadArea.classList.add('active');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadArea.classList.remove('active');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            fileUploadArea.classList.remove('active');
+            
+            if (e.dataTransfer.files.length) {
+                const file = e.dataTransfer.files[0];
+                if (validateFile(file)) {
+                    handleFileSelection(file);
+                }
+            }
+        });
+        
+        csvFileInput.addEventListener('change', () => {
+            if (csvFileInput.files.length) {
+                const file = csvFileInput.files[0];
+                if (validateFile(file)) {
+                    handleFileSelection(file);
+                }
+            }
+        });
+        
+        removeFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetFileSelection();
+        });
+        
+        uploadBtn.addEventListener('click', uploadFile);
+        
+        cancelBtn.addEventListener('click', () => {
+            window.location.href = '/transactions.html';
+        });
+        
+        // Functions
+        function validateFile(file) {
+            // Check file type
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                showError('Please upload a CSV file only.');
+                return false;
+            }
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showError('File size exceeds the 5MB limit.');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function handleFileSelection(file) {
+            selectedFile = file;
+            fileUploadArea.classList.add('has-file');
+            uploadPrompt.style.display = 'none';
+            fileDetails.classList.add('show');
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            uploadBtn.disabled = false;
+            hideAlerts();
+        }
+        
+        function resetFileSelection() {
+            selectedFile = null;
+            csvFileInput.value = '';
+            fileUploadArea.classList.remove('has-file');
+            uploadPrompt.style.display = 'block';
+            fileDetails.classList.remove('show');
+            uploadBtn.disabled = true;
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' bytes';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+        
+        // Parse CSV function
+        function parseCSV(csvText) {
+            const lines = csvText.split(/\r?\n/).filter(line => line.trim());
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"(.*)"$/, '$1'));
+            
+            const transactions = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                // Handle quoted values
+                let row = [];
+                let currentValue = '';
+                let insideQuotes = false;
+                
+                for (let j = 0; j < lines[i].length; j++) {
+                    const char = lines[i][j];
+                    
+                    if (char === '"') {
+                        insideQuotes = !insideQuotes;
+                    } else if (char === ',' && !insideQuotes) {
+                        row.push(currentValue.replace(/^"(.*)"$/, '$1'));
+                        currentValue = '';
+                    } else {
+                        currentValue += char;
+                    }
+                }
+                
+                // Add the last value
+                row.push(currentValue.replace(/^"(.*)"$/, '$1'));
+                
+                // Create object with headers as keys
+                const transaction = {};
+                headers.forEach((header, index) => {
+                    transaction[header] = row[index] || '';
+                });
+                
+                transactions.push(transaction);
+            }
+            
+            return transactions;
+        }
+        
+        // Upload File Function
+        async function uploadFile() {
+            if (!selectedFile) return;
+            
+            // Show progress container and disable upload button
+            progressContainer.classList.add('show');
+            uploadBtn.disabled = true;
+            
+            // Read the file
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const csvContent = e.target.result;
+                try {
+                    // Parse the CSV data
+                    const transactions = parseCSV(csvContent);
+                    
+                    if (transactions.length === 0) {
+                        showError('No valid transactions found in the CSV file');
+                        progressContainer.classList.remove('show');
+                        uploadBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Track progress
+                    let successCount = 0;
+                    let errorCount = 0;
+                    
+                    // Update progress bar
+                    const updateProgress = () => {
+                        const total = transactions.length;
+                        const completed = successCount + errorCount;
+                        const percent = Math.round((completed / total) * 100);
+                        progressFill.style.width = percent + '%';
+                        progressText.textContent = `Processing: ${completed}/${total} (${percent}%)`;
+                    };
+                    
+                    // Process each transaction
+                    for (const data of transactions) {
+                        // Create transaction object in the format expected by the API
+                        const transaction = {
+                            description: data.description,
+                            amount: parseFloat(data.amount),
+                            type: data.type.toLowerCase(),
+                            date: data.date,
+                            notes: data.notes || null
+                        };
+                        
+                        // Add category if available
+                        if (data.category && data.category.trim()) {
+                            // We'll let the backend handle category matching
+                            transaction.categoryName = data.category.trim();
+                        }
+                        
+                        try {
+                            // Use the existing API endpoint to create the transaction
+                            const response = await fetch('/api/transactions', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(transaction)
+                            });
+                            
+                            if (!response.ok) {
+                                throw new Error(`HTTP error ${response.status}`);
+                            }
+                            
+                            successCount++;
+                        } catch (err) {
+                            console.error('Error importing transaction:', err, transaction);
+                            errorCount++;
+                        }
+                        
+                        // Update progress after each transaction
+                        updateProgress();
+                    }
+                    
+                    // All done
+                    if (errorCount === 0) {
+                        showSuccess(`Successfully imported all ${successCount} transactions!`);
+                    } else {
+                        showSuccess(`Imported ${successCount} transactions. ${errorCount} failed.`);
+                    }
+                    
+                    // Reset form after 3 seconds on success
+                    setTimeout(() => {
+                        resetFileSelection();
+                        progressContainer.classList.remove('show');
+                    }, 3000);
+                    
+                } catch (err) {
+                    console.error('Error processing CSV:', err);
+                    showError('Error processing CSV file. Please check the format.');
+                    progressContainer.classList.remove('show');
+                    uploadBtn.disabled = false;
+                }
+            };
+            
+            reader.onerror = function() {
+                showError('Error reading file');
+                progressContainer.classList.remove('show');
+                uploadBtn.disabled = false;
+            };
+            
+            reader.readAsText(selectedFile);
+        }
+        
+        function showSuccess(message) {
+            errorAlert.classList.remove('show');
+            successAlert.classList.add('show');
+            successAlert.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+        }
+        
+        function showError(message) {
+            successAlert.classList.remove('show');
+            errorAlert.classList.add('show');
+            errorMessage.textContent = message;
+        }
+        
+        function hideAlerts() {
+            successAlert.classList.remove('show');
+            errorAlert.classList.remove('show');
+        }
+
+        // Check if user is authenticated (optional)
+        fetch('/api/user')
+            .catch(() => {
+                // If user is not authenticated, redirect to login
+                window.location.href = '/login.html';
+            });
+    </script>
+</body>
+</html>

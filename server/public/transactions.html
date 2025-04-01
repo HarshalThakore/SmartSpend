@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions - SmartSpend</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #3b82f6; }
+    .card {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .navigation {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .navigation a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      font-weight: 600;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #3b82f6;
+      color: #3b82f6;
+    }
+    .btn-small {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+    .btn-danger {
+      background-color: #ef4444;
+    }
+    .btn-warning {
+      background-color: #f59e0b;
+    }
+    .transactions-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+      background-color: #f9fafb;
+      font-weight: 600;
+    }
+    tr:hover {
+      background-color: #f9fafb;
+    }
+    .amount-income {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .amount-expense {
+      color: #ef4444;
+      font-weight: 600;
+    }
+    .success {
+      color: #10b981;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    .error {
+      color: #ef4444;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    .filters {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 150px;
+    }
+    .filter-group label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .filter-group select, .filter-group input {
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 5px;
+    }
+    .pagination button {
+      background-color: #f9fafb;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background-color: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-header h2 {
+      margin: 0;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .form-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #3b82f6;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navigation">
+    <a href="/">Dashboard</a>
+    <a href="/add-transaction.html">Add Transaction</a>
+    <a href="/transactions.html">All Transactions</a>
+  </div>
+  
+  <h1>All Transactions</h1>
+  
+  <div id="auth-status"></div>
+  
+  <div id="transactions-container" style="display:none;">
+    <div class="card">
+      <div id="message"></div>
+      
+      <div class="filters">
+        <div class="filter-group">
+          <label for="filter-type">Type</label>
+          <select id="filter-type">
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="filter-category">Category</label>
+          <select id="filter-category">
+            <option value="">All Categories</option>
+            <!-- Categories will be populated by JavaScript -->
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="filter-from-date">From Date</label>
+          <input type="date" id="filter-from-date">
+        </div>
+        
+        <div class="filter-group">
+          <label for="filter-to-date">To Date</label>
+          <input type="date" id="filter-to-date">
+        </div>
+        
+        <div class="filter-group" style="justify-content: flex-end;">
+          <label>&nbsp;</label>
+          <button id="apply-filters" class="btn">Apply Filters</button>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <a href="/add-transaction.html" class="btn">Add New Transaction</a>
+        <a href="/import-csv.html" class="btn btn-outline">Import CSV</a>
+      </div>
+      
+      <div class="transactions-container">
+        <table id="transactions-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="transactions-body">
+            <!-- Transactions will be populated by JavaScript -->
+          </tbody>
+        </table>
+        
+        <div id="empty-state" class="empty-state" style="display:none;">
+          <p>No transactions found.</p>
+          <a href="/add-transaction.html" class="btn">Add Your First Transaction</a>
+        </div>
+        
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <p>Loading transactions...</p>
+        </div>
+      </div>
+      
+      <div id="pagination" class="pagination">
+        <!-- Pagination will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Edit Transaction Modal -->
+  <div id="edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Transaction</h2>
+        <button class="modal-close" onclick="closeEditModal()">&times;</button>
+      </div>
+      
+      <div id="edit-form-message"></div>
+      
+      <form id="edit-transaction-form">
+        <input type="hidden" id="edit-transaction-id">
+        
+        <div class="form-group">
+          <label for="edit-description">Description</label>
+          <input type="text" id="edit-description" name="description" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-amount">Amount</label>
+          <input type="number" id="edit-amount" name="amount" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-type">Type</label>
+          <select id="edit-type" name="type" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-date">Date</label>
+          <input type="date" id="edit-date" name="date" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-category-id">Category</label>
+          <select id="edit-category-id" name="categoryId">
+            <option value="null">Select a category</option>
+            <!-- Categories will be populated by JavaScript -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="edit-notes">Notes</label>
+          <textarea id="edit-notes" name="notes" rows="3"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-warning" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Delete Transaction</h2>
+        <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+      </div>
+      
+      <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
+      <div id="delete-transaction-details"></div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-warning" onclick="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Global variables
+    let allTransactions = [];
+    let filteredTransactions = [];
+    let categories = [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let deleteTransactionId = null;
+    
+    // Check if user is logged in
+    fetch('/api/user')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Not authenticated');
+        }
+        return response.json();
+      })
+      .then(user => {
+        // User is logged in
+        document.getElementById('auth-status').innerHTML = `
+          <div class="card">
+            <p>Welcome, <strong>${user.username}</strong></p>
+            <button id="logout-btn" class="btn">Logout</button>
+          </div>
+        `;
+        
+        // Add logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+          fetch('/api/logout', { method: 'POST' })
+            .then(() => {
+              window.location.href = '/login.html';
+            })
+            .catch(error => {
+              console.error('Logout error:', error);
+              alert('Failed to log out. Please try again.');
+            });
+        });
+        
+        // Show transactions container
+        document.getElementById('transactions-container').style.display = 'block';
+        
+        // Load categories and transactions
+        loadCategories().then(() => {
+          loadTransactions();
+        });
+        
+        // Add event listeners
+        document.getElementById('apply-filters').addEventListener('click', applyFilters);
+        document.getElementById('edit-transaction-form').addEventListener('submit', saveEditedTransaction);
+        document.getElementById('edit-type').addEventListener('change', filterEditCategories);
+      })
+      .catch(error => {
+        // User is not logged in
+        document.getElementById('auth-status').innerHTML = `
+          <div class="card">
+            <p>Please <a href="/login.html">login</a> to view transactions.</p>
+          </div>
+        `;
+      });
+    
+    // Load all categories
+    async function loadCategories() {
+      try {
+        const response = await fetch('/api/categories');
+        if (!response.ok) {
+          throw new Error('Failed to load categories');
+        }
+        
+        categories = await response.json();
+        
+        // Populate category filter dropdown
+        const filterCategorySelect = document.getElementById('filter-category');
+        categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          filterCategorySelect.appendChild(option);
+        });
+        
+        // Also populate the edit form category dropdown
+        const editCategorySelect = document.getElementById('edit-category-id');
+        categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id;
+          option.textContent = category.name;
+          option.dataset.type = category.type;
+          editCategorySelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        showMessage('Failed to load categories. Please try refreshing the page.', 'error');
+      }
+    }
+    
+    // Filter categories in edit form based on selected type
+    function filterEditCategories() {
+      const type = document.getElementById('edit-type').value;
+      const categorySelect = document.getElementById('edit-category-id');
+      
+      // Clear current selection
+      categorySelect.value = "null";
+      
+      // Show/hide options based on type
+      Array.from(categorySelect.options).forEach(option => {
+        if (option.value === "null") return; // Skip the "Select a category" option
+        
+        const optionType = option.dataset.type;
+        if (optionType === type) {
+          option.style.display = '';
+        } else {
+          option.style.display = 'none';
+        }
+      });
+    }
+    
+    // Load all transactions
+    async function loadTransactions() {
+      try {
+        const response = await fetch('/api/transactions');
+        if (!response.ok) {
+          throw new Error('Failed to load transactions');
+        }
+        
+        allTransactions = await response.json();
+        
+        // Sort transactions by date (newest first)
+        allTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Apply initial filters
+        applyFilters();
+        
+        // Hide loading spinner
+        document.getElementById('loading').style.display = 'none';
+      } catch (error) {
+        console.error('Error loading transactions:', error);
+        document.getElementById('loading').style.display = 'none';
+        showMessage('Failed to load transactions. Please try refreshing the page.', 'error');
+      }
+    }
+    
+    // Apply filters to transactions
+    function applyFilters() {
+      const typeFilter = document.getElementById('filter-type').value;
+      const categoryFilter = document.getElementById('filter-category').value;
+      const fromDateFilter = document.getElementById('filter-from-date').value;
+      const toDateFilter = document.getElementById('filter-to-date').value;
+      
+      filteredTransactions = allTransactions.filter(transaction => {
+        // Type filter
+        if (typeFilter && transaction.type !== typeFilter) {
+          return false;
+        }
+        
+        // Category filter
+        if (categoryFilter && transaction.categoryId != categoryFilter) {
+          return false;
+        }
+        
+        // Date range filter
+        if (fromDateFilter) {
+          const fromDate = new Date(fromDateFilter);
+          const transactionDate = new Date(transaction.date);
+          if (transactionDate < fromDate) {
+            return false;
+          }
+        }
+        
+        if (toDateFilter) {
+          const toDate = new Date(toDateFilter);
+          toDate.setHours(23, 59, 59, 999); // End of the day
+          const transactionDate = new Date(transaction.date);
+          if (transactionDate > toDate) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+      
+      // Reset to page 1 when filters change
+      currentPage = 1;
+      
+      renderTransactions();
+    }
+    
+    // Render transactions with pagination
+    function renderTransactions() {
+      const tableBody = document.getElementById('transactions-body');
+      const emptyState = document.getElementById('empty-state');
+      const paginationContainer = document.getElementById('pagination');
+      
+      // Check if we have any transactions to display
+      if (filteredTransactions.length === 0) {
+        tableBody.innerHTML = '';
+        emptyState.style.display = 'block';
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      // Hide empty state
+      emptyState.style.display = 'none';
+      
+      // Calculate pagination
+      const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = Math.min(startIndex + itemsPerPage, filteredTransactions.length);
+      const currentPageTransactions = filteredTransactions.slice(startIndex, endIndex);
+      
+      // Clear the table body
+      tableBody.innerHTML = '';
+      
+      // Add rows for current page transactions
+      currentPageTransactions.forEach(transaction => {
+        const tr = document.createElement('tr');
+        
+        // Format date for display
+        const transactionDate = new Date(transaction.date);
+        const formattedDate = transactionDate.toLocaleDateString();
+        
+        // Find category name if available
+        let categoryName = '';
+        if (transaction.categoryId) {
+          const category = categories.find(c => c.id === transaction.categoryId);
+          categoryName = category ? category.name : '';
+        }
+        
+        tr.innerHTML = `
+          <td>${formattedDate}</td>
+          <td>${transaction.description}</td>
+          <td>${categoryName}</td>
+          <td class="amount-${transaction.type}">
+            ${transaction.type === 'income' ? '+' : '-'}
+            $${parseFloat(transaction.amount).toFixed(2)}
+          </td>
+          <td>
+            <button class="btn btn-small" onclick="openEditModal(${transaction.id})">Edit</button>
+            <button class="btn btn-small btn-danger" onclick="openDeleteModal(${transaction.id})">Delete</button>
+          </td>
+        `;
+        
+        tableBody.appendChild(tr);
+      });
+      
+      // Render pagination controls if we have more than one page
+      if (totalPages > 1) {
+        paginationContainer.innerHTML = '';
+        
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.textContent = '←';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderTransactions();
+          }
+        });
+        paginationContainer.appendChild(prevButton);
+        
+        // Page buttons
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement('button');
+          pageButton.textContent = i;
+          if (i === currentPage) {
+            pageButton.classList.add('active');
+          }
+          pageButton.addEventListener('click', () => {
+            currentPage = i;
+            renderTransactions();
+          });
+          paginationContainer.appendChild(pageButton);
+        }
+        
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.textContent = '→';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderTransactions();
+          }
+        });
+        paginationContainer.appendChild(nextButton);
+      } else {
+        paginationContainer.innerHTML = '';
+      }
+    }
+    
+    // Open edit modal with transaction data
+    function openEditModal(transactionId) {
+      const transaction = allTransactions.find(t => t.id === transactionId);
+      
+      if (!transaction) {
+        console.error('Transaction not found:', transactionId);
+        return;
+      }
+      
+      // Fill form with transaction data
+      document.getElementById('edit-transaction-id').value = transaction.id;
+      document.getElementById('edit-description').value = transaction.description;
+      document.getElementById('edit-amount').value = transaction.amount;
+      document.getElementById('edit-type').value = transaction.type;
+      document.getElementById('edit-date').value = new Date(transaction.date).toISOString().split('T')[0];
+      document.getElementById('edit-category-id').value = transaction.categoryId || 'null';
+      document.getElementById('edit-notes').value = transaction.notes || '';
+      
+      // Filter categories based on transaction type
+      filterEditCategories();
+      
+      // Clear any previous messages
+      document.getElementById('edit-form-message').innerHTML = '';
+      
+      // Show the modal
+      document.getElementById('edit-modal').style.display = 'flex';
+    }
+    
+    // Close edit modal
+    function closeEditModal() {
+      document.getElementById('edit-modal').style.display = 'none';
+    }
+    
+    // Save edited transaction
+    async function saveEditedTransaction(event) {
+      event.preventDefault();
+      
+      const transactionId = document.getElementById('edit-transaction-id').value;
+      
+      // Gather form data
+      const formData = {
+        description: document.getElementById('edit-description').value,
+        amount: parseFloat(document.getElementById('edit-amount').value),
+        type: document.getElementById('edit-type').value,
+        date: document.getElementById('edit-date').value,
+        notes: document.getElementById('edit-notes').value || null
+      };
+      
+      // Handle category ID (convert "null" string to actual null)
+      const categoryId = document.getElementById('edit-category-id').value;
+      formData.categoryId = categoryId === 'null' ? null : parseInt(categoryId);
+      
+      try {
+        const response = await fetch(`/api/transactions/${transactionId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to update transaction');
+        }
+        
+        const updatedTransaction = await response.json();
+        
+        // Update transaction in our local arrays
+        const index = allTransactions.findIndex(t => t.id === updatedTransaction.id);
+        if (index !== -1) {
+          allTransactions[index] = updatedTransaction;
+        }
+        
+        // Reapply filters and rerender
+        applyFilters();
+        
+        // Close the modal
+        closeEditModal();
+        
+        // Show success message
+        showMessage('Transaction updated successfully!', 'success');
+      } catch (error) {
+        console.error('Error updating transaction:', error);
+        document.getElementById('edit-form-message').innerHTML = `
+          <div class="error">${error.message}</div>
+        `;
+      }
+    }
+    
+    // Open delete confirmation modal
+    function openDeleteModal(transactionId) {
+      const transaction = allTransactions.find(t => t.id === transactionId);
+      
+      if (!transaction) {
+        console.error('Transaction not found:', transactionId);
+        return;
+      }
+      
+      // Set the transaction ID for deletion
+      deleteTransactionId = transactionId;
+      
+      // Format date for display
+      const transactionDate = new Date(transaction.date);
+      const formattedDate = transactionDate.toLocaleDateString();
+      
+      // Display transaction details
+      document.getElementById('delete-transaction-details').innerHTML = `
+        <p><strong>Description:</strong> ${transaction.description}</p>
+        <p><strong>Amount:</strong> $${parseFloat(transaction.amount).toFixed(2)}</p>
+        <p><strong>Type:</strong> ${transaction.type}</p>
+        <p><strong>Date:</strong> ${formattedDate}</p>
+      `;
+      
+      // Show the modal
+      document.getElementById('delete-modal').style.display = 'flex';
+    }
+    
+    // Close delete modal
+    function closeDeleteModal() {
+      document.getElementById('delete-modal').style.display = 'none';
+      deleteTransactionId = null;
+    }
+    
+    // Confirm and execute transaction deletion
+    async function confirmDelete() {
+      if (!deleteTransactionId) return;
+      
+      try {
+        const response = await fetch(`/api/transactions/${deleteTransactionId}`, {
+          method: 'DELETE'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to delete transaction');
+        }
+        
+        // Remove transaction from our local arrays
+        allTransactions = allTransactions.filter(t => t.id !== deleteTransactionId);
+        
+        // Reapply filters and rerender
+        applyFilters();
+        
+        // Close the modal
+        closeDeleteModal();
+        
+        // Show success message
+        showMessage('Transaction deleted successfully!', 'success');
+      } catch (error) {
+        console.error('Error deleting transaction:', error);
+        closeDeleteModal();
+        showMessage('Failed to delete transaction. Please try again.', 'error');
+      }
+    }
+    
+    // Show message to user
+    function showMessage(message, type) {
+      const messageElement = document.getElementById('message');
+      messageElement.innerHTML = `<div class="${type}">${message}</div>`;
+      
+      // Clear message after 5 seconds
+      setTimeout(() => {
+        messageElement.innerHTML = '';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

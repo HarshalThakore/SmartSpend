@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SmartSpend</title>
+    <style>
+      body { font-family: -apple-system, sans-serif; max-width: 650px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+      h1 { color: #0070f3; }
+      .card { border-radius: 8px; border: 1px solid #eaeaea; padding: 20px; margin: 20px 0; }
+    </style>
+  </head>
+  <body>
+    <h1>SmartSpend - Deployment Test</h1>
+    <p>This is a placeholder page. Your application static files should be placed in the client/dist directory.</p>
+    <div class="card">
+      <h2>API Health Check</h2>
+      <p>Your API is <span id="status">checking...</span></p>
+      <script>
+        fetch('/api/health')
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById('status').textContent = 'running (' + data.time + ')';
+            document.getElementById('status').style.color = 'green';
+          })
+          .catch(() => {
+            document.getElementById('status').textContent = 'not available';
+            document.getElementById('status').style.color = 'red';
+          });
+      </script>
+    </div>
+  </body>
+</html>

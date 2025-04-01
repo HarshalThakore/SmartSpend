@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - SmartSpend</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #3b82f6; }
+    .card {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .nav {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .nav a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .error {
+      color: #ef4444;
+      margin-top: 5px;
+    }
+    .success {
+      color: #10b981;
+      margin-top: 5px;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .tab.active {
+      border-bottom: 2px solid #3b82f6;
+      font-weight: 600;
+      color: #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Dashboard</a>
+    <a href="/login.html">Login</a>
+    <a href="/add-transaction.html">Add Transaction</a>
+  </div>
+  <h1>SmartSpend</h1>
+  
+  <div class="card">
+    <div class="tabs">
+      <div id="login-tab" class="tab active" onclick="showTab('login')">Login</div>
+      <div id="register-tab" class="tab" onclick="showTab('register')">Register</div>
+    </div>
+    
+    <div id="login-form">
+      <h2>Login</h2>
+      <form id="login-form-element">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required>
+        </div>
+        <div id="login-message"></div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+    
+    <div id="register-form" style="display: none;">
+      <h2>Create Account</h2>
+      <form id="register-form-element">
+        <div class="form-group">
+          <label for="register-username">Username</label>
+          <input type="text" id="register-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" name="password" required minlength="6">
+        </div>
+        <div id="register-message"></div>
+        <button type="submit" class="btn">Register</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // Check if user is already logged in
+    fetch('/api/user')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Not logged in');
+      })
+      .then(user => {
+        // User is already logged in, redirect to dashboard
+        window.location.href = '/';
+      })
+      .catch(error => {
+        // User is not logged in, show login form
+        console.log('User not logged in');
+      });
+    
+    // Tab switching functionality
+    function showTab(tab) {
+      if (tab === 'login') {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('register-form').style.display = 'none';
+        document.getElementById('login-tab').classList.add('active');
+        document.getElementById('register-tab').classList.remove('active');
+      } else {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('register-form').style.display = 'block';
+        document.getElementById('login-tab').classList.remove('active');
+        document.getElementById('register-tab').classList.add('active');
+      }
+    }
+    
+    // Login form handler
+    document.getElementById('login-form-element').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      const messageElement = document.getElementById('login-message');
+      
+      messageElement.textContent = 'Logging in...';
+      messageElement.className = '';
+      
+      fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(data.error || 'Login failed');
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        messageElement.textContent = 'Login successful! Redirecting...';
+        messageElement.className = 'success';
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      })
+      .catch(error => {
+        messageElement.textContent = error.message;
+        messageElement.className = 'error';
+      });
+    });
+    
+    // Register form handler
+    document.getElementById('register-form-element').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('register-username').value;
+      const password = document.getElementById('register-password').value;
+      const messageElement = document.getElementById('register-message');
+      
+      if (password.length < 6) {
+        messageElement.textContent = 'Password must be at least 6 characters';
+        messageElement.className = 'error';
+        return;
+      }
+      
+      messageElement.textContent = 'Creating account...';
+      messageElement.className = '';
+      
+      fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw new Error(data.error || 'Registration failed');
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        messageElement.textContent = 'Account created successfully! Redirecting...';
+        messageElement.className = 'success';
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      })
+      .catch(error => {
+        messageElement.textContent = error.message;
+        messageElement.className = 'error';
+      });
+    });
+  </script>
+</body>
+</html>
