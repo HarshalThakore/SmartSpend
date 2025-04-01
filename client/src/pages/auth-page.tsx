@@ -75,7 +75,7 @@ export default function AuthPage() {
         <Card className="w-full">
           <CardContent className="pt-6">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-semibold text-primary">FinTrack</h1>
+              <h1 className="text-3xl font-semibold text-primary">SmartSpend</h1>
               <p className="text-gray-600 mt-2">Your personal finance tracker</p>
             </div>
             

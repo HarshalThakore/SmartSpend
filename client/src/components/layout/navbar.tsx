@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-xl font-semibold text-primary">FinTrack</h1>
+              <h1 className="text-xl font-semibold text-primary">SmartSpend</h1>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link href="/">
