@@ -43,6 +43,7 @@ export interface IStorage {
     totalIncome: number;
     totalExpenses: number;
     recentTransactions: Transaction[];
+    useAzureStorage: boolean; // Flag to indicate if using Azure Storage
   }>;
 
   // Session store
@@ -218,6 +219,7 @@ export class DatabaseStorage implements IStorage {
     totalIncome: number;
     totalExpenses: number;
     recentTransactions: Transaction[];
+    useAzureStorage: boolean;
   }> {
     try {
       // Get all transactions for the user
@@ -252,7 +254,8 @@ export class DatabaseStorage implements IStorage {
         totalBalance,
         totalIncome,
         totalExpenses,
-        recentTransactions
+        recentTransactions,
+        useAzureStorage: false // Default to false, needs actual implementation for Azure storage
       };
     } catch (error) {
       console.error("Error getting dashboard stats:", error);
