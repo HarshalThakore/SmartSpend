@@ -6,7 +6,7 @@ echo "Installing dependencies (ignoring engine requirements)..."
 npm install --ignore-engines
 
 echo "Installing build tools locally..."
-npm install --no-save vite esbuild typescript
+npm install --save-dev vite esbuild typescript
 
 echo "Building application..."
 # Use the local vite and esbuild from node_modules
@@ -16,7 +16,7 @@ echo "PATH set to: $PATH"
 echo "Attempting to build the frontend..."
 if [ -f "./node_modules/.bin/vite" ]; then
   echo "Local vite found, running build..."
-  ./node_modules/.bin/vite build || echo "Vite build failed, continuing with server build"
+  ./node_modules/.bin/vite build
 else
   echo "Vite not found in node_modules, skipping frontend build"
 fi
@@ -31,7 +31,7 @@ fi
 
 echo "Checking for build output..."
 if [ -d "dist" ]; then
-  echo "Server build completed, files in dist directory:"
+  echo "Build completed, files in dist directory:"
   ls -la dist
 else
   echo "Build may have failed, dist directory not found"
@@ -72,7 +72,7 @@ else
 </body>
 </html>
 INNEREOF
-
+  
   echo "Created fallback index.html in server/public"
 fi
 
