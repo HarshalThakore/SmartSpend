@@ -9,9 +9,9 @@ const connectionString = isDev ?
 
 const client = postgres(connectionString, {
   max: 10,
-  ssl: process.env.AZURE_POSTGRESQL_SSL === 'true' ? {
+  ssl: {
     rejectUnauthorized: false
-  } : false,
+  },
   connect_timeout: 30,
   idle_timeout: 30
 });
