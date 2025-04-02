@@ -5,12 +5,12 @@ import * as schema from "../shared/schema";
 const isDev = process.env.NODE_ENV !== 'production';
 const connectionString = isDev ? 
   'postgresql://postgres:postgres@localhost:5432/smartspend' : 
-  process.env.DATABASE_URL;
+  `postgres://${process.env.AZURE_POSTGRESQL_USER}:${process.env.AZURE_POSTGRESQL_PASSWORD}@${process.env.AZURE_POSTGRESQL_HOST}:${process.env.AZURE_POSTGRESQL_PORT || '5432'}/${process.env.AZURE_POSTGRESQL_DATABASE}`;
 
 const client = postgres(connectionString, {
   max: 10,
-  ssl: !isDev ? {
-    rejectUnauthorized: false 
+  ssl: process.env.AZURE_POSTGRESQL_SSL === 'true' ? {
+    rejectUnauthorized: false
   } : false,
   connect_timeout: 30,
   idle_timeout: 30
