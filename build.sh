@@ -1,6 +1,8 @@
-
 #!/bin/bash
 echo "Running build process for Azure deployment..."
+
+# Ensure node_modules/.bin is in the PATH
+export PATH=$PATH:./node_modules/.bin
 
 # Install all dependencies including dev dependencies
 echo "Installing dependencies..."
@@ -8,11 +10,10 @@ npm install --include=dev
 
 # Build the client application
 echo "Building the client application..."
-echo "Running vite build..."
-./node_modules/.bin/vite build
+npm run build-client
 
 # Build the server application
 echo "Building server..."
-./node_modules/.bin/esbuild server/index.ts --bundle --platform=node --outdir=dist --format=esm
+npm run build-server
 
 echo "Build completed"
