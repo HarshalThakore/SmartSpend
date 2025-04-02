@@ -1,0 +1,16 @@
+2025-04-02T02:47:26.083760711Z Node.js v22.14.0
+2025-04-02T02:47:26.215564844Z npm http fetch GET 200 https://registry.npmjs.org/npm 2092ms
+2025-04-02T02:47:26.285926256Z npm notice
+2025-04-02T02:47:26.285942491Z npm notice New major version of npm available! 10.8.2 -> 11.2.0
+2025-04-02T02:47:26.285946388Z npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.2.0
+2025-04-02T02:47:26.285948960Z npm notice To update run: npm install -g npm@11.2.0
+2025-04-02T02:47:26.285968716Z npm notice/home/LogFiles/2025_04_02_lw0sdlwk0001AN_docker.log  (https://smartspend-hvfqenhzg2aph5fr.scm.canadacentral-01.azurewebsites.net/api/vfs/LogFiles/2025_04_02_lw0sdlwk0001AN_docker.log)
+2025-04-02T02:44:40.592Z ERROR - Container smartspend_1_de9a6ca0 didn't respond to HTTP pings on port: 8080, failing site start. See container logs for debugging.
+2025-04-02T02:44:40.722Z INFO  - Stopping site smartspend because it failed during startup.
+2025-04-02T02:46:50.723Z INFO  - Starting container for site
+2025-04-02T02:46:50.725Z INFO  - docker run -d --expose=8080 --name smartspend_1_f0fae9d4 -e WEBSITE_USE_DIAGNOSTIC_SERVER=true -e WEBSITE_SITE_NAME=smartspend -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=smartspend-hvfqenhzg2aph5fr.canadacentral-01.azurewebsites.net -e WEBSITE_INSTANCE_ID=94a41bc1b0bad4b76ec8de5af5839092b53f106e22f1ec1633d69c4db331a7c4 appsvc/node:22-lts_20250303.1.tuxprod
+2025-04-02T02:46:50.727Z INFO  - Logging is not enabled for this container.Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2025-04-02T02:46:54.496Z INFO  - Initiating warmup request to container smartspend_1_f0fae9d4 for site smartspend
+2025-04-02T02:47:27.219Z ERROR - Container smartspend_1_f0fae9d4 for site smartspend has exited, failing site start
+2025-04-02T02:47:27.289Z ERROR - Container smartspend_1_f0fae9d4 didn't respond to HTTP pings on port: 8080, failing site start. See container logs for debugging.
+2025-04-02T02:47:27.371Z INFO  - Stopping site smartspend because it failed during startup.Ending Log Tail of existing logs ---Starting Live Log Stream ---
