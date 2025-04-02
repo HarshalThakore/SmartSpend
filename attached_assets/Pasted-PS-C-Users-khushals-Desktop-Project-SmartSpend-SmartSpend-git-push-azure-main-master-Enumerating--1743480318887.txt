@@ -1,0 +1,86 @@
+PS C:\Users\khushals\Desktop\Project\SmartSpend\SmartSpend> git push azure main:master
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 672 bytes | 336.00 KiB/s, done.
+Total 4 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Deploy Async
+remote: Updating branch 'master'.
+remote: Updating submodules.
+remote: Preparing deployment for commit id '0e89d9446b'.
+remote: PreDeployment: context.CleanOutputPath False
+remote: PreDeployment: context.OutputPath /home/site/wwwroot
+remote: Repository path is /home/site/repository
+remote: Running oryx build...
+remote: Operation performed by Microsoft Oryx, https://github.com/Microsoft/Oryx
+remote: You can report issues at https://github.com/Microsoft/Oryx/issues
+remote: 
+remote: Oryx Version: 0.2.20250107.1+ef3fb2f9c490a4fbb1f76b5746cd4ba2ff0409f4, Commit: ef3fb2f9c490a4fbb1f76b5746cd4ba2ff0409f4, ReleaseTagName: 20250107.1
+remote:
+remote: Build Operation ID: 742e9033ff33ae86
+remote: Repository Commit : 0e89d9446b9822558adfbc4e97bc9c95ba4dddc1
+remote: OS Type           : bullseye
+remote: Image Type        : githubactions
+remote:
+remote: Detecting platforms...
+remote: ......
+remote: Detected following platforms:
+remote:   nodejs: 18.20.7
+remote: Detected the following frameworks: Typescript,Express,React
+remote: 
+remote: Using intermediate directory '/tmp/8dd70d215ac82a8'.
+remote: 
+remote: Copying files to the intermediate directory...
+remote: Done in 1 sec(s).
+remote: 
+remote: Source directory     : /tmp/8dd70d215ac82a8
+remote: Destination directory: /home/site/wwwroot
+remote:
+remote: Removing existing manifest file
+remote: Creating directory for command manifest file if it does not exist
+remote: Creating a manifest file...
+remote: Node Build Command Manifest file created.
+remote: 
+remote: Using Node version:
+remote: v18.20.7
+remote: 
+remote: Using Npm version:
+remote: 10.8.2
+remote: 
+remote: Running 'npm install'...
+remote: 
+remote: ...............................................................................
+remote: 
+remote: added 444 packages, and audited 445 packages in 1m
+remote: 
+remote: 56 packages are looking for funding
+remote:   run `npm fund` for details
+remote: 
+remote: 1 moderate severity vulnerability
+remote: 
+remote: To address all issues, run:
+remote:   npm audit fix
+remote: 
+remote: Run `npm audit` for details.
+remote: 
+remote: Running 'npm run build'...
+remote:
+remote: 
+remote: > rest-express@1.0.0 build
+remote: sh: 1: vite: not found
+remote: > vite build && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+remote: 
+remote: 
+remote: Generating summary of Oryx build
+remote: Parsing the build logs
+remote: Found 0 issue(s)
+remote: 
+remote: Build Summary :
+remote: ===============
+remote: Errors (0)
+remote: Warnings (0)
+remote: 
+remote: Deployment Failed. deployer =  deploymentPath =
+remote: Deployment failed
+remote: Error - Changes committed to remote repository but deployment to website failed.

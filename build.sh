@@ -6,13 +6,13 @@ echo "Running build process for Azure deployment..."
 echo "Installing dependencies..."
 npm install --include=dev
 
-# Build the application
-echo "Building the application..."
+# Build the client application
+echo "Building the client application..."
 echo "Running vite build..."
-npm install -g vite
-vite build
+./node_modules/.bin/vite build
 
+# Build the server application
 echo "Building server..."
-npm run dev
+./node_modules/.bin/esbuild server/index.ts --bundle --platform=node --outdir=dist --format=esm
 
 echo "Build completed"
