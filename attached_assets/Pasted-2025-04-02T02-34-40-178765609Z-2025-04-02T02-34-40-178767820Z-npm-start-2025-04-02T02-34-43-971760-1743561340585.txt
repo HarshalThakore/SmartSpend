@@ -1,0 +1,32 @@
+2025-04-02T02:34:40.178765609Z
+2025-04-02T02:34:40.178767820Z npm start
+2025-04-02T02:34:43.971760256Z npm info using npm@10.8.2
+2025-04-02T02:34:43.972847463Z npm info using node@v22.14.0
+2025-04-02T02:34:50.110128498Z
+2025-04-02T02:34:50.110188614Z > rest-express@1.0.0 start
+2025-04-02T02:34:50.110193239Z > NODE_ENV=production node dist/index.js
+2025-04-02T02:34:50.110195945Z
+2025-04-02T02:34:52.043183804Z node:internal/modules/package_json_reader:268
+2025-04-02T02:34:52.043267321Z   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-04-02T02:34:52.043270724Z         ^
+2025-04-02T02:34:52.043273194Z
+2025-04-02T02:34:52.043275621Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /home/site/wwwroot/dist/index.js
+2025-04-02T02:34:52.043278177Z     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+2025-04-02T02:34:52.043281158Z     at packageResolve (node:internal/modules/esm/resolve:768:81)
+2025-04-02T02:34:52.043283579Z     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+2025-04-02T02:34:52.043285946Z     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+2025-04-02T02:34:52.043288326Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+2025-04-02T02:34:52.043290801Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+2025-04-02T02:34:52.043293267Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+2025-04-02T02:34:52.043295705Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+2025-04-02T02:34:52.043298206Z     at ModuleJob._link (node:internal/modules/esm/module_job:135:49) {
+2025-04-02T02:34:52.043300614Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-04-02T02:34:52.043308459Z }
+2025-04-02T02:34:52.051713461Z
+2025-04-02T02:34:52.051744222Z Node.js v22.14.0
+2025-04-02T02:34:52.103301712Z npm http fetch GET 200 https://registry.npmjs.org/npm 1552ms
+2025-04-02T02:34:52.134264859Z npm notice
+2025-04-02T02:34:52.134308982Z npm notice New major version of npm available! 10.8.2 -> 11.2.0
+2025-04-02T02:34:52.134312956Z npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.2.0
+2025-04-02T02:34:52.134315726Z npm notice To update run: npm install -g npm@11.2.0
+2025-04-02T02:34:52.134318211Z npm notice

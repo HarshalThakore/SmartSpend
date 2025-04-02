@@ -1,0 +1,52 @@
+kudu_ssh_user@cb699c70245d:~/site/wwwroot$ npx esbuild server/index.ts --bundle --platform=node --outdir=dist --format=esm
+Need to install the following packages:
+  esbuild@0.25.2
+Ok to proceed? (y) y
+✘ [ERROR] Could not resolve "vite"
+
+    server/vite.ts:5:63:
+      5 │ import { createServer as createViteServer, createLogger } from "vite";
+        │                                                                ~~~~~~
+        ╵                                                                "./vite"
+
+  Use the relative path "./vite" to reference the file "server/vite.ts". Without the leading "./",
+  the path "vite" is being interpreted as a package path instead.
+
+✘ [ERROR] Could not resolve "vite"
+
+    vite.config.ts:1:29:
+      1 │ import { defineConfig } from "vite";
+        ╵                              ~~~~~~
+
+  You can mark the path "vite" as external to exclude it from the bundle, which will remove this
+  error and leave the unresolved path in the bundle.
+
+✘ [ERROR] Could not resolve "@vitejs/plugin-react"
+
+    vite.config.ts:2:18:
+      2 │ import react from "@vitejs/plugin-react";
+        ╵                   ~~~~~~~~~~~~~~~~~~~~~~
+
+  You can mark the path "@vitejs/plugin-react" as external to exclude it from the bundle, which will
+  remove this error and leave the unresolved path in the bundle.
+
+✘ [ERROR] Could not resolve "@replit/vite-plugin-runtime-error-modal"
+
+    vite.config.ts:5:32:
+      5 │ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+        ╵                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  You can mark the path "@replit/vite-plugin-runtime-error-modal" as external to exclude it from the
+  bundle, which will remove this error and leave the unresolved path in the bundle.
+
+✘ [ERROR] Could not resolve "@replit/vite-plugin-cartographer"
+
+    vite.config.ts:19:23:
+      19 │           await import("@replit/vite-plugin-cartographer").then((m) =>
+         ╵                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  You can mark the path "@replit/vite-plugin-cartographer" as external to exclude it from the
+  bundle, which will remove this error and leave the unresolved path in the bundle. You can also add
+  ".catch()" here to handle this failure at run-time instead of bundle-time.
+
+5 errors
