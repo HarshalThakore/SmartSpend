@@ -5,9 +5,21 @@ run = "npm run dev"
 channel = "stable-24_05"
 
 [deployment]
-run = ["sh", "-c", "node dist/index.js"]
-build = ["sh", "-c", "chmod +x build.sh && ./build.sh"]
+run = ["sh", "-c", "NODE_ENV=production node dist/index.js"]
+build = ["sh", "-c", "npm install && npm run build"]
 
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[workflows]
+runButton = "Run"
+
+[[workflows.workflow]]
+name = "Run"
+author = 40963557
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server/index.ts"
