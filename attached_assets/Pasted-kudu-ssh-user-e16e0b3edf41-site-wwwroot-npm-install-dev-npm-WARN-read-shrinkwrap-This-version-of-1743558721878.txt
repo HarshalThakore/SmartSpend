@@ -1,0 +1,295 @@
+kudu_ssh_user@e16e0b3edf41:~/site/wwwroot$ npm install dev
+npm WARN read-shrinkwrap This version of npm is compatible with lockfileVersion@1, but package-lock.json was generated for lockfileVersion@3. I'll try to do my best with it!
+
+> inotify@1.4.6 install /home/site/wwwroot/node_modules/inotify
+> node-gyp rebuild
+
+make: Entering directory '/home/site/wwwroot/node_modules/inotify/build'
+  CXX(target) Release/obj.target/inotify/src/bindings.o
+In file included from ../src/bindings.cc:2:
+../src/bindings.h:10:27: error: ‘Handle’ has not been declared
+    static void Initialize(Handle<Object> target);
+                           ^~~~~~
+../src/bindings.h:10:33: error: expected ‘,’ or ‘...’ before ‘<’ token
+    static void Initialize(Handle<Object> target);
+                                 ^
+../src/bindings.cc:11:27: error: variable or field ‘Initialize’ declared void
+  void Inotify::Initialize(Handle<Object> exports) {
+                           ^~~~~~
+../src/bindings.cc:11:27: error: ‘Handle’ was not declared in this scope
+../src/bindings.cc:11:27: note: suggested alternative: ‘rand_r’
+  void Inotify::Initialize(Handle<Object> exports) {
+                           ^~~~~~
+                           rand_r
+../src/bindings.cc:11:40: error: expected primary-expression before ‘>’ token
+  void Inotify::Initialize(Handle<Object> exports) {
+                                        ^
+../src/bindings.cc:11:42: error: ‘exports’ was not declared in this scope
+  void Inotify::Initialize(Handle<Object> exports) {
+                                          ^~~~~~~
+../src/bindings.cc: In static member function ‘static Nan::NAN_METHOD_RETURN_TYPE NodeInotify::Inotify::AddWatch(Nan::NAN_METHOD_ARGS_TYPE)’:
+../src/bindings.cc:146:43: error: no matching function for call to ‘v8::Value::ToObject()’
+   Local<Object> args_ = info[0]->ToObject();
+                                           ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2822:44: note: candidate: ‘v8::MaybeLocal<v8::Object> v8::Value::ToObject(v8::Local<v8::Context>) const’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Object> ToObject(
+                                            ^~~~~~~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2822:44: note:   candidate expects 1 argument, 0 provided
+../src/bindings.cc:149:27: error: no matching function for call to ‘v8::Object::Has(v8::Local<v8::String>&)’
+   if (!args_->Has(path_sym)) {
+                           ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context, uint32_t index);
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:154:31: error: no matching function for call to ‘v8::Object::Has(v8::Local<v8::String>&)’
+   if (!args_->Has(callback_sym) ||
+                               ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context, uint32_t index);
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:155:28: error: no matching function for call to ‘v8::Object::Get(v8::Local<v8::String>&)’
+    !args_->Get(callback_sym)->IsFunction()) {
+                            ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:160:32: error: no matching function for call to ‘v8::Object::Has(v8::Local<v8::String>&)’
+   if (!args_->Has(watch_for_sym)) {
+                                ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3752:37: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Has(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Has(Local<Context> context, uint32_t index);
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3758:37: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:163:33: error: no matching function for call to ‘v8::Object::Get(v8::Local<v8::String>&)’
+    if (!args_->Get(watch_for_sym)->IsInt32()) {
+                                 ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:166:36: error: no matching function for call to ‘v8::Object::Get(v8::Local<v8::String>&)’
+    mask |= args_->Get(watch_for_sym)->Int32Value();
+                                    ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:172:45: error: no matching function for call to ‘v8::Object::Get(v8::Local<v8::String>&)’
+   String::Utf8Value path(args_->Get(path_sym));
+                                             ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:182:61: error: no matching function for call to ‘v8::Object::Get(v8::Local<v8::String>&)’
+   inotify->handle()->Set(descriptor, args_->Get(callback_sym));
+                                                             ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc: In static member function ‘static Nan::NAN_METHOD_RETURN_TYPE NodeInotify::Inotify::RemoveWatch(Nan::NAN_METHOD_ARGS_TYPE)’:
+../src/bindings.cc:195:31: error: no matching function for call to ‘v8::Value::Int32Value()’
+   watch = info[0]->Int32Value();
+                               ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2869:40: note: candidate: ‘v8::Maybe<int> v8::Value::Int32Value(v8::Local<v8::Context>) const’
+   V8_WARN_UNUSED_RESULT Maybe<int32_t> Int32Value(Local<Context> context) const;
+                                        ^~~~~~~~~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2869:40: note:   candidate expects 1 argument, 0 provided
+../src/bindings.cc: In static member function ‘static void NodeInotify::Inotify::Callback(uv_poll_t*, int, int)’:
+../src/bindings.cc:262:86: error: no matching function for call to ‘v8::Object::Set(v8::Local<v8::String>, Nan::imp::IntegerFactory<v8::Integer>::return_t)’
+     obj->Set(Nan::New<String>("watch").ToLocalChecked(), Nan::New<Integer>(event->wd));
+                                                                                      ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, v8::Local<v8::Value>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note:   candidate expects 3 arguments, 2 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, uint32_t, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context, uint32_t index,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note:   candidate expects 3 arguments, 2 provided
+../src/bindings.cc:263:87: error: no matching function for call to ‘v8::Object::Set(v8::Local<v8::String>, Nan::imp::IntegerFactory<v8::Integer>::return_t)’
+     obj->Set(Nan::New<String>("mask").ToLocalChecked(), Nan::New<Integer>(event->mask));
+                                                                                       ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, v8::Local<v8::Value>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note:   candidate expects 3 arguments, 2 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, uint32_t, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context, uint32_t index,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note:   candidate expects 3 arguments, 2 provided
+../src/bindings.cc:264:91: error: no matching function for call to ‘v8::Object::Set(v8::Local<v8::String>, Nan::imp::IntegerFactory<v8::Integer>::return_t)’
+     obj->Set(Nan::New<String>("cookie").ToLocalChecked(), Nan::New<Integer>(event->cookie));
+                                                                                           ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, v8::Local<v8::Value>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note:   candidate expects 3 arguments, 2 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, uint32_t, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context, uint32_t index,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note:   candidate expects 3 arguments, 2 provided
+../src/bindings.cc:267:104: error: no matching function for call to ‘v8::Object::Set(v8::Local<v8::String>, v8::Local<v8::String>)’
+      obj->Set(Nan::New<String>("name").ToLocalChecked(), Nan::New<String>(event->name).ToLocalChecked());
+                                                                                                        ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, v8::Local<v8::Value>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3670:37: note:   candidate expects 3 arguments, 2 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note: candidate: ‘v8::Maybe<bool> v8::Object::Set(v8::Local<v8::Context>, uint32_t, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT Maybe<bool> Set(Local<Context> context, uint32_t index,
+                                     ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3673:37: note:   candidate expects 3 arguments, 2 provided
+../src/bindings.cc:275:66: error: no matching function for call to ‘v8::Object::Get(Nan::imp::IntegerFactory<v8::Integer>::return_t)’
+     Local<Value> value = handle->Get(Nan::New<Integer>(event->wd));
+                                                                  ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, v8::Local<v8::Value>)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3717:43: note:   candidate expects 2 arguments, 1 provided
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note: candidate: ‘v8::MaybeLocal<v8::Value> v8::Object::Get(v8::Local<v8::Context>, uint32_t)’
+   V8_WARN_UNUSED_RESULT MaybeLocal<Value> Get(Local<Context> context,
+                                           ^~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:3720:43: note:   candidate expects 2 arguments, 1 provided
+../src/bindings.cc:279:34: warning: ‘v8::Local<v8::Value> Nan::Callback::Call(v8::Local<v8::Object>, int, v8::Local<v8::Value>*) const’ is deprecated [-Wdeprecated-declarations]
+     callback.Call(handle, 1, argv);
+                                  ^
+In file included from ../src/node_inotify.h:14,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+../../nan/nan.h:1796:3: note: declared here
+   Call(v8::Local<v8::Object> target
+   ^~~~
+../src/bindings.cc:285:34: error: no matching function for call to ‘v8::Value::ToString()’
+      handle->Delete(wd->ToString());
+                                  ^
+In file included from /home/.cache/node-gyp/14.18.2/include/node/node.h:67,
+                 from ../src/node_inotify.h:5,
+                 from ../src/bindings.h:4,
+                 from ../src/bindings.cc:2:
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2810:44: note: candidate: ‘v8::MaybeLocal<v8::String> v8::Value::ToString(v8::Local<v8::Context>) const’
+   V8_WARN_UNUSED_RESULT MaybeLocal<String> ToString(
+                                            ^~~~~~~~
+/home/.cache/node-gyp/14.18.2/include/node/v8.h:2810:44: note:   candidate expects 1 argument, 0 provided
+make: *** [inotify.target.mk:112: Release/obj.target/inotify/src/bindings.o] Error 1
+make: Leaving directory '/home/site/wwwroot/node_modules/inotify/build'
+gyp ERR! build error 
+gyp ERR! stack Error: `make` failed with exit code: 2
+gyp ERR! stack     at ChildProcess.onExit (/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:194:23)
+gyp ERR! stack     at ChildProcess.emit (events.js:400:28)
+gyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:282:12)
+gyp ERR! System Linux 5.15.173.1-1.cm2
+gyp ERR! command "/usr/local/bin/node" "/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
+gyp ERR! cwd /home/site/wwwroot/node_modules/inotify
+gyp ERR! node -v v14.18.2
+gyp ERR! node-gyp -v v5.1.0
+gyp ERR! not ok 
+npm WARN rest-express@1.0.0 No description
+npm WARN rest-express@1.0.0 No repository field.
+
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! inotify@1.4.6 install: `node-gyp rebuild`
+npm ERR! Exit status 1
+npm ERR! 
+npm ERR! Failed at the inotify@1.4.6 install script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/.npm/_logs/2025-04-02T01_51_26_591Z-debug.log
