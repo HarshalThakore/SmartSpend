@@ -19,7 +19,7 @@ interface CSVTransactionRow {
 export function parseCSVFile(filePath: string): Promise<Partial<InsertTransaction>[]> {
   return new Promise((resolve, reject) => {
     const results: Partial<InsertTransaction>[] = [];
-    
+
     fs.createReadStream(filePath)
       .pipe(csv())
       .on('data', (data: CSVTransactionRow) => {
@@ -43,13 +43,13 @@ export function parseCSVFile(filePath: string): Promise<Partial<InsertTransactio
  */
 export function parseCSVBuffer(buffer: Buffer): Promise<Partial<InsertTransaction>[]> {
   // Create a temporary file
-  const tempFilePath = path.join('/data/csv', `temp-${Date.now()}.csv`);
-  
+  const tempFilePath = path.join('./data/csv', `temp-${Date.now()}.csv`);
+
   return new Promise((resolve, reject) => {
     // Write buffer to file
     fs.writeFile(tempFilePath, buffer, (err) => {
       if (err) return reject(err);
-      
+
       // Parse the file
       parseCSVFile(tempFilePath)
         .then(results => {
@@ -77,21 +77,21 @@ function mapCSVRowToTransaction(row: CSVTransactionRow): Partial<InsertTransacti
       console.warn('Skipping row due to missing required fields', row);
       return null;
     }
-    
+
     // Validate amount
     const amount = parseFloat(row.amount);
     if (isNaN(amount) || amount <= 0) {
       console.warn('Skipping row due to invalid amount', row);
       return null;
     }
-    
+
     // Validate type
     const type = row.type.toLowerCase();
     if (type !== 'income' && type !== 'expense') {
       console.warn('Skipping row due to invalid type', row);
       return null;
     }
-    
+
     // Parse date
     let date: Date;
     try {
@@ -103,7 +103,7 @@ function mapCSVRowToTransaction(row: CSVTransactionRow): Partial<InsertTransacti
       console.warn('Skipping row due to invalid date format', row);
       return null;
     }
-    
+
     // Create transaction object
     return {
       description: row.description,
@@ -122,7 +122,7 @@ function mapCSVRowToTransaction(row: CSVTransactionRow): Partial<InsertTransacti
  * Ensures the CSV upload directory exists
  */
 export function ensureCsvDirectoryExists(): void {
-  const csvUploadDir = '/data/csv';
+  const csvUploadDir = './data/csv';
   try {
     if (!fs.existsSync(csvUploadDir)) {
       fs.mkdirSync(csvUploadDir, { recursive: true });
@@ -136,17 +136,17 @@ export function ensureCsvDirectoryExists(): void {
  * @param maxAgeInHours - Maximum age of files to keep (defaults to 24 hours)
  */
 export function cleanupTempCsvFiles(maxAgeInHours = 24): void {
-  const csvUploadDir = '/data/csv';
+  const csvUploadDir = './data/csv';
   const now = Date.now();
   const maxAge = maxAgeInHours * 60 * 60 * 1000; // Convert hours to milliseconds
-  
+
   try {
     fs.readdir(csvUploadDir, (err, files) => {
       if (err) {
         console.error('Error reading CSV directory:', err);
         return;
       }
-      
+
       // Find temp files older than maxAge
       files.forEach(file => {
         if (file.startsWith('temp-')) {
@@ -156,7 +156,7 @@ export function cleanupTempCsvFiles(maxAgeInHours = 24): void {
               console.error(`Error getting stats for ${file}:`, statErr);
               return;
             }
-            
+
             const fileAge = now - stats.mtime.getTime();
             if (fileAge > maxAge) {
               fs.unlink(filePath, (unlinkErr) => {
