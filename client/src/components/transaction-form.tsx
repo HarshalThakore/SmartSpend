@@ -47,7 +47,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
       type: "expense",
       date: format(new Date(), "yyyy-MM-dd"),
       notes: "",
-      categoryId: undefined
+      categoryId: 0
     }
   });
 
@@ -245,7 +245,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="null">No Category</SelectItem>
+                      <SelectItem value="0">No Category</SelectItem>
                       {filteredCategories.map(category => (
                         <SelectItem key={category.id} value={category.id.toString()}>
                           {category.name}
