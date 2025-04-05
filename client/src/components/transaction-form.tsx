@@ -81,9 +81,15 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
       try {
-        const res = await apiRequest("POST", "/api/transactions", data);
+        const res = await apiRequest("POST", "/api/transactions", data, {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
         if (!res.ok) {
-          throw new Error('Failed to create transaction');
+          const error = await res.json();
+          throw new Error(error.message || 'Failed to create transaction');
         }
         return res.json();
       } catch (error) {
