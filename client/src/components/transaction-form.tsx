@@ -32,7 +32,7 @@ type FormData = {
 export default function TransactionForm({ open, onOpenChange, transaction }: TransactionFormProps) {
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
-  
+
   // Load categories for the dropdown
   const { data: categories } = useQuery({
     queryKey: ["/api/categories"],
@@ -55,7 +55,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
   useEffect(() => {
     if (transaction) {
       setIsEditing(true);
-      
+
       form.reset({
         description: transaction.description,
         amount: transaction.amount,
@@ -160,7 +160,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
         <DialogHeader>
           <DialogTitle>{isEditing ? "Edit Transaction" : "Add New Transaction"}</DialogTitle>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
             <FormField
@@ -245,7 +245,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="">No Category</SelectItem>
+                      <SelectItem value="null">No Category</SelectItem>
                       {filteredCategories.map(category => (
                         <SelectItem key={category.id} value={category.id.toString()}>
                           {category.name}
