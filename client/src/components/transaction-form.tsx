@@ -235,9 +235,8 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
-                    defaultValue={field.value?.toString()}
-                    value={field.value?.toString()}
+                    onValueChange={(value) => field.onChange(value === "no-category" ? undefined : parseInt(value))}
+                    value={field.value?.toString() || "no-category"}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -245,6 +244,7 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="no-category">No Category</SelectItem>
                       {filteredCategories.map(category => (
                         <SelectItem key={category.id} value={category.id.toString()}>
                           {category.name}
