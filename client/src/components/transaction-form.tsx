@@ -80,8 +80,16 @@ export default function TransactionForm({ open, onOpenChange, transaction }: Tra
   // Create transaction mutation
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      const res = await apiRequest("POST", "/api/transactions", data);
-      return res.json();
+      try {
+        const res = await apiRequest("POST", "/api/transactions", data);
+        if (!res.ok) {
+          throw new Error('Failed to create transaction');
+        }
+        return res.json();
+      } catch (error) {
+        console.error('Transaction creation error:', error);
+        throw error;
+      }
     },
     onSuccess: () => {
       toast({
