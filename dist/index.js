@@ -450,11 +450,11 @@ function setupAuth(app2) {
   const sessionSecret = process.env.SESSION_SECRET || "fintrack_secret_key";
   const sessionSettings = {
     secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: storage.sessionStore,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       maxAge: 1e3 * 60 * 60 * 24 * 7,
       // 1 week
       sameSite: "lax",
