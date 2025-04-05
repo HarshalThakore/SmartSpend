@@ -455,8 +455,11 @@ function setupAuth(app2) {
     store: storage.sessionStore,
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      maxAge: 1e3 * 60 * 60 * 24 * 7
+      maxAge: 1e3 * 60 * 60 * 24 * 7,
       // 1 week
+      sameSite: "lax",
+      httpOnly: true,
+      path: "/"
     }
   };
   app2.use(session2(sessionSettings));
