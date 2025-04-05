@@ -79,7 +79,16 @@ export default function CategoryForm({ open, onOpenChange, category }: CategoryF
   // Create category mutation
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      const res = await apiRequest("POST", "/api/categories", data);
+      const res = await apiRequest("POST", "/api/categories", data, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to create category');
+      }
       return res.json();
     },
     onSuccess: () => {
