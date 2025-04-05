@@ -22,4 +22,4 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "node server/index.ts"
+args = "npm run build-server && node dist/index.js"
